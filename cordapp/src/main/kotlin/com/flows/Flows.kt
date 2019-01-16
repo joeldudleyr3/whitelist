@@ -1,6 +1,8 @@
-package com.template
+package com.flows
 
 import co.paralleluniverse.fibers.Suspendable
+import com.template.MyContract
+import com.template.State
 import net.corda.core.flows.FinalityFlow
 import net.corda.core.flows.FlowLogic
 import net.corda.core.flows.InitiatingFlow
@@ -25,7 +27,7 @@ class CreateState : FlowLogic<Unit>() {
                 .addCommand(MyContract.Commands.Action(), ourIdentity.owningKey)
         txBuilder.verify(serviceHub)
         val signedTransaction = serviceHub.signInitialTransaction(txBuilder)
-        subFlow(FinalityFlow(signedTransaction))
+        subFlow(FinalityFlow(signedTransaction, listOf()))
     }
 }
 
@@ -43,6 +45,6 @@ class UpdateState : FlowLogic<Unit>() {
                 .addCommand(MyContract.Commands.Action(), ourIdentity.owningKey)
         txBuilder.verify(serviceHub)
         val signedTransaction = serviceHub.signInitialTransaction(txBuilder)
-        subFlow(FinalityFlow(signedTransaction))
+        subFlow(FinalityFlow(signedTransaction, listOf()))
     }
 }
